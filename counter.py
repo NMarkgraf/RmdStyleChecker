@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
   Norman's little Rmarkdown style checker
-  
+
   Counter Classes
 
   (C)opyleft in 2018 by Norman Markgraf (nmarkgraf@hotmail.com)
@@ -28,35 +28,36 @@
 
 '''
 
+
 class Counter:
 
     def __init__(self):
         self.counter = 0
-        
+
     def next(self):
         self.counter = self.counter + 1
-            
+
     def get(self):
         return self.counter
-    
+
     def __repr__(self):
         return repr(self.conter)
-        
+
     def __str__(self):
         return str(self.counter)
 
-    
+
 class LineNumberCounter(Counter):
-    
+
     def __repr__(self):
         return "Line "+repr(self.counter)+" "
-        
+
     def __str__(self):
         return "Line "+str(self.counter)+" "
 
 
 class EmptyLineCounter(Counter):
-    
+
     def reset(self):
         self.counter = 0
 

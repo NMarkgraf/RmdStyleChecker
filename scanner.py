@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
   Norman's little Rmarkdown style checker
-  
+
   Scanner Class
 
   (C)opyleft in 2018 by Norman Markgraf (nmarkgraf@hotmail.com)
@@ -32,61 +32,66 @@ import re as re
 from counter import *
 from flags import Flag
 
+
 class Scanner:
 
     re_match_emptyLine = "^\s*$"
     re_match_tailingWhiteSpaces = "\s\s+$"
-    re_match_header="^#+ "
-    re_match_codeblock="^```"
+    re_match_header = "^#+ "
+    re_match_codeblock = "^```"
 
     def __init__(self):
         self.lineNumberCounter = LineNumberCounter()
         self.emptyLineCounter = EmptyLineCounter()
         self.re_emptyLine = re.compile(self.re_match_emptyLine)
-        self.re_tailingeWhiteSpaces = re.compile(self.re_match_tailingWhiteSpaces)
+        self.re_tailingeWhiteSpaces = re.compile(
+            self.re_match_tailingWhiteSpaces)
         self.re_header = re.compile(self.re_match_header)
         self.re_codeblock = re.compile(self.re_match_codeblock)
-        
+
         self.codeblockFlag = Flag()
-        
+
     def scan(self, file):
         with open(file, "r") as txt:
             for line in txt:
                 self.lineNumberCounter.next()
                 self.analyseLine(line)
-        print("Scanned "+ str(self.lineNumberCounter.get()) + " lines")
+        print("Scanned " + str(self.lineNumberCounter.get()) + " lines")
 
     def isEmptyLine(self, line):
         return self.re_emptyLine.search(line)
-        
+
     def hasTailingWhiteSpaces(self, line):
         return self.re_tailingeWhiteSpaces.search(line)
-    
+
     def isHeader(self, line):
         return self.re_header.search(line)
 
     def isCodeblock(self, line):
         return self.re_codeblock.search(line)
-    
+
     def analyseLine(self, line):
         flagNonEmptyLine = False
         if self.isEmptyLine(line):
             self.emptyLineCounter.next()
         else:
             flagNonEmptyLine = True
-            
+
         if self.hasTailingWhiteSpaces(line):
             print(str(self.lineNumberCounter) + "has tailing whitespaces!")
-            
+
         if self.isCodeblock(line):
             self.codeblockFlag.toggle()
-            
+
         if self.isHeader(line) and self.codeblockFlag.isNotSet():
             if self.emptyLineCounter.get() < 2:
-                print(str(self.lineNumberCounter) + "has only one empty line before header, should be two!")
+                print(str(self.lineNumberCounter) +
+                      "has only one empty line before header, should be two!")
             if self.emptyLineCounter.get() > 2:
-                print(str(self.lineNumberCounter) + "has more than two empty line before header, should be two!")
-            
+                print(str(self.lineNumberCounter) +
+                      "has more than two empty line before header, " +
+                      "should be two!")
+
         if flagNonEmptyLine:
             self.emptyLineCounter.reset()
 
