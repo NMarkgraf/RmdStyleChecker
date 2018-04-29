@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
   Norman's little Rmarkdown style checker
-  
+
   Flag Class
 
   (C)opyleft in 2018 by Norman Markgraf (nmarkgraf@hotmail.com)
@@ -28,22 +28,23 @@
 
 '''
 
+
 class Flag:
 
     def __init__(self):
         self.flag = False
-        
+
     def toggle(self):
         self.flag = not self.flag
 
     def get(self):
         return self.flag
-    
+
     def isSet(self):
-        return self.get() == True
-    
+        return self.get()
+
     def isNotSet(self):
-        return self.get() == False
+        return not self.get()
 
     def set(self, bool):
         self.flag = bool

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
   Norman's little Rmarkdown style checker
-  
+
   MAIN
 
   (C)opyleft in 2018 by Norman Markgraf (nmarkgraf@hotmail.com)
@@ -26,7 +26,7 @@
 
   PEP8? better use pycodestyle
   ============================
-  
+
     > pycodestyle decorator.py
 
   Lizenz:
@@ -50,8 +50,10 @@ import sys
 import getopt
 from scanner import *
 
+
 def printHelp():
     print('sytlecheck.py -i <inputfile>')
+
 
 def main(argv):
     scn = Scanner()
