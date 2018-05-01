@@ -88,7 +88,7 @@ class Scanner:
             warningstr = ""
             if self.emptyLineCounter.get() < 2:
                 if self.emptyLineCounter.get() < 1:
-                    warningstr = "no"
+                    warningstr = "no" 
                 else:
                     warningstr = "only one"
                 warningstr = warningstr + " blank line"
