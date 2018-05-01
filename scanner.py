@@ -9,7 +9,8 @@
 
   Release:
   ========
-  0.1   - 29.04.2018 (nm) - Erste Version
+  0.1   - 29.04.2018 (nm) - Initial commit
+  0.2   - 01.05.2018 (nm) - Some tiny fixes.
 
   Lizenz:
   =======
@@ -84,13 +85,22 @@ class Scanner:
             self.codeblockFlag.toggle()
 
         if self.isHeader(line) and self.codeblockFlag.isNotSet():
+            warningstr = ""
             if self.emptyLineCounter.get() < 2:
-                print(str(self.lineNumberCounter) +
-                      "has only one empty line before header, should be two!")
-            if self.emptyLineCounter.get() > 2:
-                print(str(self.lineNumberCounter) +
-                      "has more than two empty line before header, " +
-                      "should be two!")
+                if self.emptyLineCounter.get() < 1:
+                    warningstr = "no"
+                else:
+                    warningstr = "only one"
+                warningstr = warningstr + " blank line"
+            else:
+                if self.emptyLineCounter.get() > 2:
+                    warningstr = "more than two blank lines"
+            if warningstr != "":
+                warningstr = "" + str(self.lineNumberCounter.get()) +
+                             "has " +
+                             warningstr + 
+                             "before header, should be two!"
+                print(warningstr)
 
         if flagNonEmptyLine:
             self.emptyLineCounter.reset()
