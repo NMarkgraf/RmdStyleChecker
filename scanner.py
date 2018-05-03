@@ -37,7 +37,7 @@ from flags import Flag
 class Scanner:
 
     re_match_emptyLine = "^\s*$"
-    re_match_tailingWhiteSpaces = "\s+$"
+    re_match_tailingWhiteSpaces = "[\t\f\v ]$"
     re_match_header = "^#+ "
     re_match_codeblock = "^```"
 
