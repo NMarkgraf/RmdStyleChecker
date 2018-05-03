@@ -29,7 +29,7 @@
 '''
 
 import re as re
-
+from collections import deque
 
 class Rule:
 
@@ -61,25 +61,71 @@ class RegExMatchRule(Rule):
 class TailingWhiteSpaceRule(RegExMatchRule):
 
     def __init__(self):
-        super().__init__("\s+$")
+        super().__init__("[\t\f\v ]$")
     
     def handleLine(self,  line):
         mtch = self.matchLine(line)
         if mtch:
-            self.errorMsg = "has tailing white-spaces!"
+            self.errorMsg = "has tailing whitespaces!"
         return mtch
+
+class LookBackRule(Rule):
     
+    def __init__(self):
+        self.lookback = deque([])
+        
+    def handleLine(self, line):
+        self.handleLinePre(line)
+        ret = self.handleLineWork(line)
+        self.handleLinePost(line)
+        return(ret)
+
+    def handleLinePre(self, line):
+        self.lookback.append(line)
+        
+    def handleLinePost(self, line):
+        if len(self.lookback) > 3:
+            self.lookback.popleft()
+
+    def handleLineWord(self, line):
+        pass
+    
+class TwoBlankLinesBeforeHeader(LookBackRule):
+    
+    def __init__(self):
+        super().__init__()
+        self.re_blankline = re.compile("^\s*$")
+    
+    def isBlankLine(self, line):
+        return self.re_blankline.search(line)
+    
+    def handleLineWork(self, line):
+        if len(self.lookback) < 3:
+            self.errorMsg = "has no two blank lines before Header!"
+            return False
+        else:
+            if not(self.isBlankLine(self.lookback[-2])) and not(self.isBlankLine(self.lookback[-3])):
+                    self.errorMsg = "has no blank line before Header, should be two!"
+                    return False
+            if not self.isBlankLine(self.lookback[-2]):
+                self.errorMsg = "has one blank line before Header, should be two!"
+                return False
+        return True
+        
 def main():
     rules = []
     rules.append(TailingWhiteSpaceRule())
+    rules.append(TwoBlankLinesBeforeHeader())
 
-    line = "Blubber "
-
-    for rule in rules:
-        if rule.handleLine(line):
-            print(rule.error())
-        else:
-            print("Okay!")
+    lines = ["Blubber", "Blubber ", "# Kopfzeile", "", "", "# Noch eine Kopfzeile", " ", "## Und noch eine Folie"]
+    
+    linecounter = 0
+    
+    for line in lines:
+        linecounter = linecounter + 1
+        for rule in rules:
+            if rule.handleLine(line):
+                print("Line "+ str(linecounter) +" " +rule.error())
 
 if __name__ == "__main__":
     main()
