@@ -45,35 +45,23 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-import re
-import sys
-import getopt
+import argparse
 from scanner import *
 
 
-def printHelp():
-    print('sytlecheck.py -i <inputfile>')
-
-
-def main(argv):
+def main():
     scn = Scanner()
-    inputfile = ''
-    try:
-        opts, args = getopt.getopt(argv, "hi:", ["ifile="])
-    except getopt.GetoptError:
-        printHelp()
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            printHelp()
-            sys.exit()
-        elif opt in ("-i", "--ifile"):
-            inputfile = arg
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("rmdfile",  help="Rmarkdown file to scan")
+
+    args = parser.parse_args()
+
+    inputfile = args.rmdfile
+    
     if inputfile != "":
         scn.scan(inputfile)
-    else:
-        printHelp()
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()

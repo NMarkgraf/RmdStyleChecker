@@ -37,7 +37,7 @@ from flags import Flag
 class Scanner:
 
     re_match_emptyLine = "^\s*$"
-    re_match_tailingWhiteSpaces = "\s\s+$"
+    re_match_tailingWhiteSpaces = "\s+$"
     re_match_header = "^#+ "
     re_match_codeblock = "^```"
 
@@ -96,19 +96,8 @@ class Scanner:
                 if self.emptyLineCounter.get() > 2:
                     warningstr = "more than two blank lines"
             if warningstr != "":
-                warningstr = "" + str(self.lineNumberCounter.get()) +
-                             "has " +
-                             warningstr + 
-                             "before header, should be two!"
-                print(warningstr)
+                warningstr =  "has " + warningstr + "before header, should be two!"
+                print(str(self.lineNumberCounter) + warningstr)
 
         if flagNonEmptyLine:
             self.emptyLineCounter.reset()
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
