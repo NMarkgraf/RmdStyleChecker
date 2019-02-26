@@ -5,11 +5,12 @@
 
   Flag Class
 
-  (C)opyleft in 2018 by Norman Markgraf (nmarkgraf@hotmail.com)
+  (C)opyleft in 2018/19 by Norman Markgraf (nmarkgraf@hotmail.com)
 
   Release:
   ========
   0.1   - 29.04.2018 (nm) - Erste Version
+  0.2   - 26.02.2019 (nm) - Kleinere Schönheitsupdates
 
   Lizenz:
   =======
@@ -46,8 +47,8 @@ class Flag:
     def isNotSet(self):
         return not self.get()
 
-    def set(self, bool):
-        self.flag = bool
+    def set(self, flg):
+        self.flag = flg
 
 
 def main():

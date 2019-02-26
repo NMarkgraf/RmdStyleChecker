@@ -5,12 +5,13 @@
 
   Scanner Class
 
-  (C)opyleft in 2018 by Norman Markgraf (nmarkgraf@hotmail.com)
+  (C)opyleft in 2018/19 by Norman Markgraf (nmarkgraf@hotmail.com)
 
   Release:
   ========
   0.1   - 29.04.2018 (nm) - Initial commit
   0.2   - 01.05.2018 (nm) - Some tiny fixes.
+  0.2.1 - 26.02.2019 (nm) - Kleinere Schönheitsupdates
 
   Lizenz:
   =======
@@ -33,7 +34,6 @@ import re as re
 from counter import *
 from flags import Flag
 
-
 class Scanner:
 
     re_match_emptyLine = "^\s*$"
@@ -52,8 +52,8 @@ class Scanner:
 
         self.codeblockFlag = Flag()
 
-    def scan(self, file):
-        with open(file, "r") as txt:
+    def scan(self, filename):
+        with open(filename, "r") as txt:
             for line in txt:
                 self.lineNumberCounter.next()
                 self.analyseLine(line)
